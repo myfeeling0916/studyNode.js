@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Study Node.js</title>
+    <link href="content/style.css" rel="stylesheet">
+</head>
+
+<body>
+	<h1>Chapter.2 Upload files PUT</h1>
+	<form id="frm">
+		<input type="file" name="userfile" id="userfile" /><br>
+		<input type="submit" />
+	</form>
+	
+	<script type="text/javascript" src="content/server.js"></script>
+	<script>
+		(function () {
+			console.log('run upload service');
+			console.log('window.location-> ' + window.location );
+			var userfile = document.getElementById("userfile"),
+			frm = document.getElementById("frm"),
+			file;
+			userfile.addEventListener('change', function(e) {
+				file = this.files[0];
+			});
+			
+			frm.addEventListener('submit', function(e) {
+				e.preventDefault();
+				if(file) {
+					var xhr = new XMLHttpRequest();
+					xhr.file = file;
+					xhr.open('put', window.location, true);
+					xhr.setRequestHeader('x-uploadedfilename', file.fileName || file.name);
+					xhr.send(file);
+					file = '';
+					frm.reset();
+				}
+			});
+		})();
+	</script>
+</body>
+
+</html>
